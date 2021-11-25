@@ -78,7 +78,7 @@ return view.extend({
 		o.default = o.enabled;
 		
 		o = s.taboption('firmware', form.Flag, 'coremark', _('CoreMark'),_('第一次开机后是否运行CPU跑分测试'));
-		o.default = o.enabled;
+		o.default = o.disable;
 		
 		return m.render();
 	}
