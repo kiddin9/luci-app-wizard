@@ -39,3 +39,6 @@ msgstr "软件包自动更新"
 
 msgid "Firmware Upgrade Notice"
 msgstr "固件更新提醒"
+
+msgid "Persistent cookies"
+msgstr "持久化登录"
