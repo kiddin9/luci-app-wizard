@@ -67,7 +67,6 @@ add_wizard() {
 	[ -n "$lan_dns" ] && {
 		[ "$(uci -q get dhcp.@dnsmasq[0].noresolv)" == 1 ] && {
 		uci -q del dhcp.@dnsmasq[0].noresolv
-		uci commit dhcp
 		}
 		uci -q set network.wan.peerdns='0'
 		uci -q set network.lan.dns="${lan_dns}"
