@@ -13,7 +13,7 @@ add_wizard() {
 	local cfg="$1"
 	local wan_proto wan_pppoe_user wan_pppoe_pass
 	local lan_ipaddr lan_netmask lan_dns lan_gateway dhcp
-	local device ipv6 old_ipv6 wifi_ssid wifi_key old_wifi_ssid old_wifi__ke
+	local device ipv6 old_ipv6 wifi_ssid wifi_key old_wifi_ssid old_wifi_key
 
 	config_get wan_proto "$cfg" wan_proto
 
