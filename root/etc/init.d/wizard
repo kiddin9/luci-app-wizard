@@ -108,6 +108,34 @@ add_wizard() {
 	uci -q set wizard.default.old_ipv6="${ipv6}"
 	fi
 	
+	wifi_setup_radio(){
+	local radio=$1
+	uci -q get wireless.${radio} >/dev/null 2>&1 && {
+		if [ "$(uci -q get wireless.${radio}.band)" = "5g" ]; then
+			uci -q set wireless.default_${radio}.ssid="${wifi_ssid}_5G"
+		else
+			uci -q set wireless.default_${radio}.ssid="${wifi_ssid}_2.4G"
+		fi
+			uci -q set wireless.default_${radio}.device="${radio}"
+			if [ "${wifi_key}" ]; then
+				uci -q set wireless.default_${radio}.encryption='psk2'
+				uci -q set wireless.default_${radio}.key="${wifi_key}"
+			else
+				uci -q set wireless.default_${radio}.encryption='none'
+			fi
+		}
+	}
+	
+	config_get wifi_ssid "$cfg" wifi_ssid
+	config_get wifi_key "$cfg" wifi_key
+
+	test -n "${wifi_ssid}" && {
+		for radio in radio0 radio1 radio2 radio3; do
+			wifi_setup_radio ${radio}
+		done
+		uci commit wireless
+	}
+	
 	uci commit wizard
 	uci commit dhcp
 	uci commit firewall
