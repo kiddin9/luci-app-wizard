@@ -54,7 +54,7 @@ return view.extend({
 		o.value('255.0.0.0');
 		o.default = '255.255.255.0';
 
-		o = s.taboption('netsetup', form.DynamicList, 'lan_dns', _('Use custom DNS servers'), _('留空则使用阿里DNS 223.5.5.5'));
+		o = s.taboption('netsetup', form.DynamicList, 'lan_dns', _('Use custom DNS servers'), _('Leave empty to use Alibaba DNS 223.5.5.5'));
 		o.datatype = 'ip4addr';
 		o.cast = 'string';
 
@@ -64,10 +64,11 @@ return view.extend({
 		o = s.taboption('netsetup', form.Value, 'lan_gateway', _('IPv4 gateway'));
 		o.depends('siderouter', '1');
 		o.datatype = 'ip4addr';
-		o.placeholder = '请输入主路由IP';
+		o.placeholder = _('Enter the main router IP');
 		o.rmempty = false;
 
-		o = s.taboption('netsetup', form.Flag, 'dhcp', _('DHCP Server'), _('开启此DHCP则需要关闭主路由的DHCP, 关闭此DHCP则需要手动将所有上网设备的网关和DNS改为此旁路由的IP'));
+		o = s.taboption('netsetup', form.Flag, 'dhcp', _('DHCP Server'),
+			_('To turn on this DHCP, you need to turn off the DHCP of the main router, and to turn off this DHCP, you need to manually change the gateway and DNS of all Internet devices to the IP of this bypass router'));
 		o.depends('siderouter', '1');
 		o.default = o.enabled;
 
@@ -85,7 +86,8 @@ return view.extend({
 		o = s.taboption('firmware', form.Flag, 'coremark', _('CoreMark'), _('第一次开机后是否运行CPU跑分测试'));
 		o.rmempty = false;
 
-		o = s.taboption('firmware', form.Flag, 'cookie_p', _('Persistent cookies'), _('保持后台登录状态,避免每次关闭浏览器后都需要重新登录'));
+		o = s.taboption('firmware', form.Flag, 'cookie_p', _('Persistent cookies'),
+			_('Keep the background login state to avoid the need to log in again every time the browser is closed'));
 		o.default = o.enabled;
 
 		if (has_wifi) {
