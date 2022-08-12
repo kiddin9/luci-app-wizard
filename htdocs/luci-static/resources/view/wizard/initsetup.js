@@ -58,7 +58,8 @@ return view.extend({
 		o.datatype = 'ip4addr';
 		o.cast = 'string';
 
-		o = s.taboption('netsetup', form.Flag, 'siderouter', _('Siderouter'));
+		o = s.taboption('netsetup', form.Flag, 'siderouter', _('Siderouter'),
+			_('Use as downstream router i.e. it will work like a switch'));
 		o.rmempty = false;
 
 		o = s.taboption('netsetup', form.Value, 'lan_gateway', _('IPv4 gateway'));
