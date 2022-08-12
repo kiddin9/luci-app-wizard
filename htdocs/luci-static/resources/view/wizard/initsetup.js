@@ -25,7 +25,7 @@ return view.extend({
 			has_wifi = true;
 		}
 
-		m = new form.Map('wizard', [_('Inital Router Setup')],
+		m = new form.Map('wizard', [_('Initial Router Setup')],
 			_('If you are using this router for the first time, please configure it here.'));
 
 		s = m.section(form.NamedSection, 'default', 'wizard');

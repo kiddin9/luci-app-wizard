@@ -4,7 +4,7 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 msgid "Wizard"
 msgstr "设置向导"
 
-msgid "Inital Router Setup"
+msgid "Initial Router Setup"
 msgstr "路由器设置向导"
 
 msgid "Net Settings"
