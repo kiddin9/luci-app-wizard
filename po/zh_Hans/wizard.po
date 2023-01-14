@@ -22,8 +22,8 @@ msgstr "二种不同的上网方式，请您根据自身情况进行选择。"
 msgid "Set the router's wireless name and password. For more advanced settings, please go to the Network-Wireless page."
 msgstr "设置路由器的无线名字和密码，更多高级设置请进入 网络-无线 页面。"
 
-msgid "Leave empty to use Alibaba DNS 223.5.5.5"
-msgstr "留空则使用阿里DNS 223.5.5.5"
+msgid "Leave empty to use ISP DNS"
+msgstr "留空则使用阿里DNS"
 
 msgid "Enter the main router IP"
 msgstr "请输入主路由IP"
