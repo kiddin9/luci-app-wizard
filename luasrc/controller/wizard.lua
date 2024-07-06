@@ -9,7 +9,7 @@ end
 
 function landing_page()
 	local landing_page = uci:get("wizard", "default", "landing_page")
-	if luci.sys.call("pgrep routergo >/dev/null") == 0 && landing_page == "routerdog" then
+	if (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
 		http.redirect(luci.dispatcher.build_url("admin","routerdog"));
 	elseif luci.sys.call("pgrep quickstart >/dev/null") == 0 then
 		if landing_page == "nas" then
