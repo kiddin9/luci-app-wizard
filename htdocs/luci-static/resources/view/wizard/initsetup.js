@@ -103,7 +103,8 @@ return view.extend({
 		o.value('default', _('默认'));
 		if (data.routerdog){
 		o.value('routerdog', _('路由狗(专业NAS模式)'));
-		} else if (data.istorex){
+		}
+		if (data.istorex){
 		o.value('nas', _('NAS模式'));
 		o.value('next-nas', _('NEXT-NAS模式'));
 		o.value('router', _('路由模式'));
