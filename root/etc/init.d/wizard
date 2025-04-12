@@ -134,6 +134,8 @@ add_wizard() {
 			wifi_setup_radio ${radio}
 		done
 		uci commit wireless
+		uci -q set wizard.default.old_wifi_ssid="${wifi_ssid}"
+		uci -q set wizard.default.old_wifi_key="${wifi_key}"
 	}
 	fi
 
