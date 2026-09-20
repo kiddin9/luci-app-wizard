@@ -1,5 +1,5 @@
 {
-	"admin/services/wizard": {
+	"admin/system/wizard": {
 		"title": "Setup Wizard",
 		"order": 10,
 		"action": {
