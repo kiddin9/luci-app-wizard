@@ -119,6 +119,7 @@ return view.extend({
 			}
 		}
 
+		// 剥离现有频段后缀，确保输入框展示纯净的基准名称
 		var rawSsid = (ap && ap.ssid) || (this.hasWireless ? 'Kwrt' : '');
 		var baseSsid = rawSsid.replace(/_(2\.4G|5G|6G)$/i, '').trim();
 
@@ -502,7 +503,7 @@ return view.extend({
 		});
 	},
 
-	// 5. 重写 View 级别的 handleSaveApply：应用生效并实现 LAN IP 变更平滑迁移与自动跳转
+	// 5. 重写 View 级别的 handleSaveApply：针对 LAN IP 变动采用强制非回滚应用并自动平滑重定向
 	handleSaveApply: function(ev, mode) {
 		var self = this;
 		return this.handleSave(ev).then(function(hasChanges) {
@@ -512,22 +513,47 @@ return view.extend({
 			var newIp = (self.optMap['lan_ipaddr'].formvalue('default') || '').split('/')[0].trim();
 			var ipChanged = newIp && (newIp !== oldIp);
 
-			return ui.changes.apply(mode == '0').then(function() {
-				if (ipChanged) {
-					var sec = 15;
-					ui.showModal(_('LAN IP Address Changed'), [
-						E('p', _('LAN IP changed to %s. Redirecting in %d seconds...').format(newIp, sec)),
-						E('div', { 'class': 'spinning', 'style': 'margin: 1em auto;' })
-					]);
-					var timer = window.setInterval(function() {
-						sec--;
-						if (sec <= 0) {
-							window.clearInterval(timer);
-							window.location.href = window.location.protocol + '//' + newIp + window.location.pathname;
-						}
-					}, 1000);
-				}
-			});
+			if (ipChanged) {
+				// 关键修复：变更 LAN IP 时，严禁调用带回滚校验的 apply_rollback！
+				// 直接向后端发送 apply_unchecked，跳过心跳确认与超时自动回滚机制
+				var sec = 15;
+				var targetUrl = window.location.protocol + '//' + newIp + (window.location.pathname || '/cgi-bin/luci/');
+				var countSpan = E('strong', {}, String(sec));
+
+				// 触发非回滚的永久性提交应用（忽略断网导致的请求中断）
+				L.post(L.url('admin', 'uci', 'apply_unchecked')).catch(function() {});
+
+				// 弹出友好的倒计时模态框并自动跳转
+				ui.showModal(_('LAN IP Address Changed'), [
+					E('p', {}, [_('LAN IP has been changed to '), E('strong', {}, newIp), '.']),
+					E('p', {}, [_('Applying changes without rollback. Redirecting to the new address in '), countSpan, _(' seconds...')]),
+					E('p', { 'class': 'alert-message notice', 'style': 'margin-top: 1em;' },
+						_('提示：更改网段后，如果电脑未自动连接到新网段，请尝试重新插拔网线或断开重连 Wi-Fi 以刷新本地 IP 地址。')),
+					E('div', { 'class': 'spinning', 'style': 'margin: 1.5em auto;' }),
+					E('div', { 'class': 'right' }, [
+						E('button', {
+							'class': 'cbi-button cbi-button-action',
+							'click': function() {
+								window.location.href = targetUrl;
+							}
+						}, _('Redirect Now'))
+					])
+				]);
+
+				var timer = window.setInterval(function() {
+					sec--;
+					countSpan.textContent = String(sec);
+					if (sec <= 0) {
+						window.clearInterval(timer);
+						window.location.href = targetUrl;
+					}
+				}, 1000);
+
+				return true;
+			} else {
+				// 未修改 LAN IP 的常规操作，保留原生的回滚自愈保护
+				return ui.changes.apply(mode == '0');
+			}
 		});
 	},
 
