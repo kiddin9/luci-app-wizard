@@ -120,7 +120,7 @@ start_service() {
 	local coremark
 	config_get coremark default coremark 0
 	if [ "$coremark" = "1" ] && [ -x /bin/coremark ] && [ ! -f /etc/bench.log ] && [ ! -f /var/lock/opkg.lock ]; then
-			/sbin/cpumark
+			(sleep5; /sbin/cpumark )&
 	fi
 
 	# 2. 清理并重新配置所有 Shortcuts
