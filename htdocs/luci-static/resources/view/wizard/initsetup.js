@@ -123,7 +123,7 @@ return view.extend({
 			dhcp: uci.get('dhcp', 'lan', 'ignore') === '1' ? '0' : '1',
 			ipv6: uci.get('network', 'wan6', 'auto') === '0' ? '0' : '1',
 			https: uci.get('wizard', 'default', 'https') || '0',
-			cookie_p: uci.get('wizard', 'default', 'persistent_cookies') || uci.get('luci', 'sgi', 'persistent_cookies') || '1',
+			cookie_p: uci.get('wizard', 'default', 'persistent_cookies') || '1',
 			landing_page: uci.get('wizard', 'default', 'landing_page') || 'default',
 			autoupgrade_fm: uci.get('wizard', 'default', 'autoupgrade_fm') || '1',
 			coremark: uci.get('wizard', 'default', 'coremark') || '0',
@@ -177,7 +177,7 @@ return view.extend({
 			{ tab: 'netsetup', type: form.Flag, id: 'dhcp', title: _('Enable DHCP Server'), desc: _('Enable or disable LAN DHCP server (usually disabled in side-router mode to avoid IP address conflicts).') },
 			{ tab: 'netsetup', type: form.Flag, id: 'ipv6', title: _('IPv6 Support'), desc: _('Enable or disable IPv6 router advertisements and DHCPv6.') },
 
-			// 固件与系统设置 (完整保留 autoupgrade_fm / coremark / persistent_cookies)
+			// 固件与系统设置
 			{ tab: 'firmware', type: form.Flag, id: 'autoupgrade_fm', title: _('Firmware Upgrade Notice'), desc: _('Check and display notices for newer firmware versions.') },
 			{ tab: 'firmware', type: form.Flag, id: 'coremark', title: _('Run CoreMark on Boot'), desc: _('Run CPU benchmark asynchronously upon router initialization.') },
 			{ tab: 'firmware', type: form.Flag, id: 'cookie_p', title: _('Persistent Cookie Session'), desc: _('Maintain persistent login sessions in the web browser.') },
@@ -453,10 +453,6 @@ return view.extend({
 			// I. 页面与会话设置（持久Cookie双向同步至luci系统底层与向导配置包）
 			if (has(changed, 'cookie_p')) {
 				uci.set('wizard', 'default', 'persistent_cookies', cur.cookie_p);
-				if (uci.get('luci', 'sgi') == null) {
-					uci.add('luci', 'sgi', 'sgi');
-				}
-				uci.set('luci', 'sgi', 'persistent_cookies', cur.cookie_p);
 			}
 			if (has(changed, 'landing_page')) {
 				uci.set('wizard', 'default', 'landing_page', cur.landing_page);
