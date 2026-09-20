@@ -123,7 +123,7 @@ return view.extend({
 		});
 
 		var m = new form.Map('wizard', _('Setup Wizard'),
-			_('Quickly configure common network, wireless, and system settings. Only modified options are saved and reloaded, preserving all other settings.'));
+			_('Quickly configure common network, wireless, and system settings.'));
 
 		var s = m.section(form.NamedSection, 'default', 'wizard');
 		s.anonymous = true;
