@@ -189,7 +189,7 @@ return view.extend({
 		// 无线配置根据设备硬件动态追加
 		if (this.hasWireless) {
 			fields.push(
-				{ tab: 'wifisetup', type: form.Value, id: 'wifi_ssid', title: _('Wireless Network Name (SSID)'), placeholder: 'Kwrt', desc: _('Wireless Name') },
+				{ tab: 'wifisetup', type: form.Value, id: 'wifi_ssid', title: _('Wireless Network Name (SSID)'), placeholder: 'Kwrt' },
 				{ tab: 'wifisetup', type: form.Value, id: 'wifi_key', title: _('Wireless Password (Key)'), password: true, placeholder: _('Leave empty for open network or 8+ characters') }
 			);
 		}
