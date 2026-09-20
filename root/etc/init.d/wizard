@@ -25,7 +25,7 @@ process_shortcut() {
 	# 获取当前 LAN 口 IP，剔除掩码
 	lanaddr="$(uci -q get network.lan.ipaddr)"
 	[ -n "$lanaddr" ] && lanaddr="${lanaddr%%/*}"
-	[ -z "$lanaddr" ] && lanaddr="192.168.1.1"
+	[ -z "$lanaddr" ] && lanaddr="10.0.0.1"
 
 	config_get shortcut "$cfg" shortcut
 	config_get to_url "$cfg" to_url
