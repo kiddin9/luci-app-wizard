@@ -42,10 +42,10 @@ function landing_page()
 	else
         if check_wifi() then
             -- 具备无线功能，跳转至常用无线仪表盘界面
-            http.redirect(luci.dispatcher.build_url("admin", "dashboard"))
+            http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
         else
             -- 无无线设备（纯有线环境），跳转至原生状态概览
-            http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
+            http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
         end
     end
 		
