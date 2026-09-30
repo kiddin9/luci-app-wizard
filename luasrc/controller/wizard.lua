@@ -27,6 +27,14 @@ end
 
 function landing_page()
 	local landing_page = uci:get("wizard", "default", "landing_page")
+	if (!landing_page || landing_page == "auto") then
+		if luci.sys.call("pgrep quickstart >/dev/null") == 0 then
+			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
+		elseif check_wifi() then
+			http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
+		else
+		http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
+        end
 	if (landing_page == "overview") then
 		http.redirect(luci.dispatcher.build_url("admin","status","overview"))
 	elseif (landing_page == "dashboard") then
@@ -46,12 +54,6 @@ function landing_page()
 			http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
 		end
 	else
-		if luci.sys.call("pgrep quickstart >/dev/null") == 0 then
-			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
-		elseif check_wifi() then
-			http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
-		else
 		http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
-        end
     end
 end
