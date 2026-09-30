@@ -27,7 +27,11 @@ end
 
 function landing_page()
 	local landing_page = uci:get("wizard", "default", "landing_page")
-	if (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
+	if (landing_page == "default") then
+		http.redirect(luci.dispatcher.build_url("admin","status","overview"))
+	elseif (landing_page == "dashboard") then
+		http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
+	elseif (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
 		http.redirect(luci.dispatcher.build_url("admin","routerdog"));
 	elseif luci.sys.call("pgrep quickstart >/dev/null") == 0 then
 		if landing_page == "nas" then
@@ -40,12 +44,7 @@ function landing_page()
 			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
 		end
 	else
-        if check_wifi() then
-            -- 具备无线功能，跳转至常用无线仪表盘界面
-            http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
-        else
-            -- 无无线设备（纯有线环境），跳转至原生状态概览
-            http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
+		http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
         end
     end
 		
