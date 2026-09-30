@@ -16,11 +16,7 @@ end
 
 function landing_page()
 	local landing_page = uci:get("wizard", "default", "landing_page")
-	if (landing_page == "default") then
-		http.redirect(luci.dispatcher.build_url("admin","status","overview"))
-	elseif (landing_page == "dashboard") then
-		http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
-	elseif (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
+	if (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
 		http.redirect(luci.dispatcher.build_url("admin","routerdog"));
 	elseif luci.sys.call("pgrep quickstart >/dev/null") == 0 then
 		if landing_page == "nas" then
@@ -33,8 +29,11 @@ function landing_page()
 			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
 		end
 	else
-		http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
-        end
+		if (landing_page == "dashboard") then
+			http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
+		else
+			http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
+		end
     end
 		
 end
