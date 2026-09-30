@@ -14,26 +14,44 @@ function index()
     end
 end
 
+local function check_wifi()
+    local has_wifi = false
+    pcall(function()
+        uci:foreach("wireless", "wifi-device", function(s)
+            has_wifi = true
+            return false -- 检测到任意 wifi-device 即终止遍历
+        end)
+    end)
+    return has_wifi
+end
+
 function landing_page()
 	local landing_page = uci:get("wizard", "default", "landing_page")
-	if (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
+	if (landing_page == "overview") then
+		http.redirect(luci.dispatcher.build_url("admin","status","overview"))
+	elseif (landing_page == "dashboard") then
+		http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
+	elseif (luci.sys.call("pgrep routergo >/dev/null") == 0 and landing_page == "routerdog") then
 		http.redirect(luci.dispatcher.build_url("admin","routerdog"));
 	elseif luci.sys.call("pgrep quickstart >/dev/null") == 0 then
-		if landing_page == "nas" then
+		if landing_page == "istoreos" then
+			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
+		elseif landing_page == "nas" then
 			http.redirect(luci.dispatcher.build_url("admin","istorex","nas"));
 		elseif landing_page == "next-nas" then
 			http.redirect(luci.dispatcher.build_url("admin","istorex","next-nas"));
 		elseif landing_page == "router" then
 			http.redirect(luci.dispatcher.build_url("admin","istorex","router"));
 		else
-			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
-		end
-	else
-		if (landing_page == "dashboard") then
-			http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
-		else
 			http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
 		end
+	else
+		if luci.sys.call("pgrep quickstart >/dev/null") == 0 then
+			http.redirect(luci.dispatcher.build_url("admin","quickstart"));
+		elseif check_wifi() then
+			http.redirect(luci.dispatcher.build_url("admin","status","dashboard"))
+		else
+		http.redirect(luci.dispatcher.build_url("admin", "status", "overview"))
+        end
     end
-		
 end
