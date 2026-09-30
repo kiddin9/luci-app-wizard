@@ -36,6 +36,8 @@ function landing_page()
     if not page or page == "auto" then
         if is_running("quickstart") then
             target = {"admin", "quickstart"}
+        if is_running("routergo") then
+            target = {"admin", "routerdog"}
         elseif check_wifi(uci) then
             target = {"admin", "status", "dashboard"}
         end
