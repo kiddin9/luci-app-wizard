@@ -121,7 +121,6 @@ start_service() {
 
 	# 3. 清理并重新配置所有 Shortcuts
 	clean_shortcuts
-	config_load wizard
 	config_foreach process_shortcut shortcuts
 
 	# 4. 设置 HTTPS 重定向
