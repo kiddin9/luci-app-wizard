@@ -12,6 +12,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "Home"
+msgstr "首页"
+
+msgid "Default"
+msgstr "默认"
+
+msgid "Auto"
+msgstr "自动"
+
 msgid "Setup Wizard"
 msgstr "快速设置向导"
 
