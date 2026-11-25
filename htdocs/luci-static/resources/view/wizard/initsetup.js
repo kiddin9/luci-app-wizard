@@ -194,8 +194,18 @@ return view.extend({
 			{ tab: 'firmware', type: form.Flag, id: 'coremark', title: _('Run CoreMark on Boot'), desc: _('Run CPU benchmark asynchronously upon router initialization.') },
 			{ tab: 'firmware', type: form.Flag, id: 'persistent_cookies', title: _('Persistent Cookie Session'), desc: _('Maintain persistent login sessions in the web browser.') },
 			{ tab: 'firmware', type: form.Flag, id: 'https', title: _('Enforce HTTPS Access'), desc: _('Automatically redirect HTTP requests to secure HTTPS.') },
-			{ tab: 'firmware', type: form.ListValue, id: 'landing_page', title: _('Landing Dashboard Mode'),
-			  choices: { '': _('Auto'), 'status/overview': _('Overview'), 'quickstart': _('iStoreOS'), 'status/dashboard': _('Dashboard'), 'routerdog': _('RouterDog'), 'istorex/nas': _('NAS'), 'istorex/next-nas': _('Next-NAS'), 'istorex/router': _('Router') } }
+			{ tab: 'firmware', type: form.Value, id: 'landing_page', title: _('Landing Dashboard Mode'),
+				choices: {
+					'': _('Auto'),
+					'status/overview': _('Overview'),
+					'quickstart': _('iStoreOS'),
+					'status/dashboard': _('Dashboard'),
+					'routerdog': _('RouterDog'),
+					'istorex/nas': _('NAS'),
+					'istorex/next-nas': _('Next-NAS'),
+					'istorex/router': _('Router')
+				}
+			}
 		];
 
 		// 无线配置根据设备硬件动态追加
@@ -293,6 +303,11 @@ return view.extend({
 				}
 			});
 			cur.lan_dns = toArray(cur.lan_dns);
+			cur.landing_page = cur.landing_page.trim()
+				.replace(/[?#].*$/, '')
+				.replace(/^.*?\/?cgi-bin\/luci(?:\/?;stok=[^/]+)?|^https?:\/\/[^/]+/i, '')
+				.replace(/\/+/g, '/').replace(/^\/|\/$/g, '')
+				.replace(/^admin(?:\/|$)/i, '');
 
 			// 精准筛选出发生变化的常规字段
 			var changed = self.fields.map(function(f) { return f.id; }).filter(function(id) {
