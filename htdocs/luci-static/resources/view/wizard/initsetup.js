@@ -135,7 +135,7 @@ return view.extend({
 			ipv6: uci.get('network', 'wan6', 'auto') === '0' ? '0' : '1',
 			https: uci.get('wizard', 'default', 'https') || '0',
 			persistent_cookies: uci.get('luci', 'main', 'persistent_cookies') || '1',
-			landing_page: uci.get('luci', 'main', 'landing_page') || 'auto',
+			landing_page: uci.get('luci', 'main', 'landing_page') || '',
 			autoupgrade_fm: uci.get('luci', 'main', 'autoupgrade_fm') || '0',
 			coremark: uci.get('wizard', 'default', 'coremark') || '0',
 			wifi_ssid: baseSsid || (this.hasWireless ? 'Kwrt' : ''),
