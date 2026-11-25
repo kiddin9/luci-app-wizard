@@ -195,7 +195,7 @@ return view.extend({
 			{ tab: 'firmware', type: form.Flag, id: 'persistent_cookies', title: _('Persistent Cookie Session'), desc: _('Maintain persistent login sessions in the web browser.') },
 			{ tab: 'firmware', type: form.Flag, id: 'https', title: _('Enforce HTTPS Access'), desc: _('Automatically redirect HTTP requests to secure HTTPS.') },
 			{ tab: 'firmware', type: form.ListValue, id: 'landing_page', title: _('Landing Dashboard Mode'),
-			  choices: { 'auto': _('Auto'), 'overview': _('Overview'), 'istoreos': _('iStoreOS'), 'dashboard': _('Dashboard'), routerdog: _('RouterDog'), nas: _('NAS'), 'next-nas': _('Next-NAS'), router: _('Router') } }
+			  choices: { '': _('Auto'), 'status/overview': _('Overview'), 'quickstart': _('iStoreOS'), 'status/dashboard': _('Dashboard'), 'routerdog': _('RouterDog'), 'istorex/nas': _('NAS'), 'istorex/next-nas': _('Next-NAS'), 'istorex/router': _('Router') } }
 		];
 
 		// 无线配置根据设备硬件动态追加
